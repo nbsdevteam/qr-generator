@@ -1,0 +1,240 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------------------------------------------------------------------------
+   Design tokens. Light = white / blue, dark = near-black / gold.
+   Components only use these semantic names via Tailwind utilities.
+--------------------------------------------------------------------------- */
+:root {
+  color-scheme: light;
+  --page: #f2f5fb;
+  --surface: #ffffff;
+  --raised: #f6f8fc;
+  --sunken: #edf1f8;
+  --line: #dde4ef;
+  --line-strong: #c6d1e2;
+  --ink: #0d1a33;
+  --ink-2: #44526e;
+  --ink-3: #6f7c96;
+  --accent: #1f5fe0;
+  --accent-hover: #184fc0;
+  --accent-ink: #ffffff;
+  --accent-soft: #e5edfc;
+  --ok: #10794a;
+  --ok-soft: #e1f4ea;
+  --bad: #c22a3a;
+  --bad-soft: #fde7ea;
+  --warn: #8f5b00;
+  --warn-soft: #fff2d9;
+  --stage: #e7edf7;
+  --stage-glow: rgba(31, 95, 224, 0.16);
+  --shadow: 0 1px 2px rgba(13, 26, 51, 0.05), 0 8px 24px -12px rgba(13, 26, 51, 0.18);
+}
+
+.dark {
+  color-scheme: dark;
+  --page: #0c0b09;
+  --surface: #15130f;
+  --raised: #1d1a14;
+  --sunken: #100e0b;
+  --line: #2a251c;
+  --line-strong: #3e372a;
+  --ink: #f4eedf;
+  --ink-2: #c6bda8;
+  --ink-3: #91886f;
+  --accent: #d9b25f;
+  --accent-hover: #e9c87c;
+  --accent-ink: #1a1408;
+  --accent-soft: #2a2416;
+  --ok: #63d49c;
+  --ok-soft: #10281c;
+  --bad: #ff8080;
+  --bad-soft: #301515;
+  --warn: #f0c14f;
+  --warn-soft: #2b2310;
+  --stage: #0f0d0a;
+  --stage-glow: rgba(217, 178, 95, 0.18);
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 30px -14px rgba(0, 0, 0, 0.7);
+}
+
+@theme inline {
+  --color-page: var(--page);
+  --color-surface: var(--surface);
+  --color-raised: var(--raised);
+  --color-sunken: var(--sunken);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-ok: var(--ok);
+  --color-ok-soft: var(--ok-soft);
+  --color-bad: var(--bad);
+  --color-bad-soft: var(--bad-soft);
+  --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
+  --color-stage: var(--stage);
+  --shadow-card: var(--shadow);
+  --font-sans: 'Figtree Variable', 'Segoe UI', system-ui, sans-serif;
+  --font-display: 'Bricolage Grotesque Variable', 'Figtree Variable', 'Segoe UI', system-ui, sans-serif;
+  --radius-control: 0.625rem;
+  --radius-card: 1rem;
+}
+
+html {
+  background: var(--page);
+}
+
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Range slider: one consistent look across browsers. The filled part uses --fill. */
+.range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 22px;
+  background: transparent;
+  cursor: pointer;
+  --fill: 50%;
+}
+.range::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--accent) var(--fill), var(--line-strong) var(--fill));
+}
+.range::-moz-range-track {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--line-strong);
+}
+.range::-moz-range-progress {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--accent);
+}
+.range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  margin-top: -6px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 2px solid var(--accent);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  transition: transform 120ms ease;
+}
+.range::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 2px solid var(--accent);
+}
+.range:active::-webkit-slider-thumb {
+  transform: scale(1.15);
+}
+.range:focus-visible {
+  outline: none;
+}
+.range:focus-visible::-webkit-slider-thumb {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.range:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* Native color input as a clean swatch. */
+.swatch-input {
+  -webkit-appearance: none;
+  appearance: none;
+  border: none;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+}
+.swatch-input::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+.swatch-input::-webkit-color-swatch {
+  border: none;
+  border-radius: 6px;
+}
+.swatch-input::-moz-color-swatch {
+  border: none;
+  border-radius: 6px;
+}
+
+/* Checkerboard behind transparent previews. */
+.checker {
+  background-color: #ffffff;
+  background-image:
+    linear-gradient(45deg, #e6e9ef 25%, transparent 25%), linear-gradient(-45deg, #e6e9ef 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #e6e9ef 75%), linear-gradient(-45deg, transparent 75%, #e6e9ef 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+}
+
+/* The preview stage: a soft pool of accent light behind the code. */
+.stage {
+  background:
+    radial-gradient(60% 55% at 50% 42%, var(--stage-glow), transparent 70%),
+    var(--stage);
+}
+
+/* Scan line that sweeps once each time the status turns "scannable". */
+@keyframes scan-sweep {
+  0% {
+    transform: translateY(-10%);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(1000%);
+    opacity: 0;
+  }
+}
+.scan-line {
+  animation: scan-sweep 900ms cubic-bezier(0.45, 0, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scan-line {
+    animation: none;
+    display: none;
+  }
+  * {
+    transition-duration: 0ms !important;
+  }
+}
